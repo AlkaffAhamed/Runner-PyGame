@@ -3,6 +3,8 @@ import sys
 
 pygame.init()
 screen = pygame.display.set_mode((800, 400))
+pygame.display.set_caption("Runner PyGame")
+clock = pygame.time.Clock()
 
 # Game loop
 while True:
@@ -17,3 +19,5 @@ while True:
     # Draw all our elements
     # Update everything
     pygame.display.update()
+    # Setting max framerate to 60 fps
+    clock.tick(60)
