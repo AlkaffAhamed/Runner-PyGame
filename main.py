@@ -9,11 +9,11 @@ test_font = pygame.font.Font("font/Pixeltype.ttf", 50)
 
 # test_surface = pygame.Surface((100, 200))
 # test_surface.fill((255, 0, 0)) # or test_surface.fill("Red")
-sky_surface = pygame.image.load("graphics/Sky.png")
-ground_surface = pygame.image.load("graphics/ground.png")
+sky_surface = pygame.image.load("graphics/Sky.png").convert()
+ground_surface = pygame.image.load("graphics/ground.png").convert()
 text_surface = test_font.render("Runner PyGame", False, 'Black')
 
-snail_surface = pygame.image.load("graphics/snail/snail1.png")
+snail_surface = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
 snail_x_pos = 600
 
 # Game loop
