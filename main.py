@@ -13,8 +13,9 @@ sky_surface = pygame.image.load("graphics/Sky.png").convert()
 ground_surface = pygame.image.load("graphics/ground.png").convert()
 text_surface = test_font.render("Runner PyGame", False, 'Black')
 
+# Convert Snail Surface to Rectangle
 snail_surface = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
-snail_x_pos = 600
+snail_rect = snail_surface.get_rect(bottomright=(600, 300))
 
 # Player Surface inside the rectangle
 player_surface = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
@@ -37,10 +38,10 @@ while True:
 
     # Snail movement
     # Important to draw the background first before drawing other objects
-    snail_x_pos -= 4
-    if snail_x_pos < -100:
-        snail_x_pos = 800
-    screen.blit(snail_surface, (snail_x_pos, 250))
+    snail_rect.x -= 4
+    if snail_rect.left < 0:
+        snail_rect.right = 800
+    screen.blit(snail_surface, snail_rect)
 
     # Move the Player by moving the rectangle that contains the player
     player_rect.left += 2
