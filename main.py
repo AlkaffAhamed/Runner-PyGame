@@ -47,9 +47,17 @@ while True:
     player_rect.left += 2
     screen.blit(player_surface, player_rect)
 
-    # Collision Detection
-    if player_rect.colliderect(snail_rect):
-        print("COLLISION!")
+    # Collision Detection with Snail
+    # r1.colliderect(r2)
+    # if player_rect.colliderect(snail_rect):
+    #     print("COLLISION!")
+
+    # Collision Detection with Mouse
+    # r1.collidepoint((x,y))
+    mouse_pos = pygame.mouse.get_pos()
+    if player_rect.collidepoint(mouse_pos):
+        print("MOUSEOVER!")
+        print(pygame.mouse.get_pressed())
 
     # Draw all our elements
     # Update everything
