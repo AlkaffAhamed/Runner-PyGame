@@ -11,7 +11,10 @@ test_font = pygame.font.Font("font/Pixeltype.ttf", 50)
 # test_surface.fill((255, 0, 0)) # or test_surface.fill("Red")
 sky_surface = pygame.image.load("graphics/Sky.png").convert()
 ground_surface = pygame.image.load("graphics/ground.png").convert()
-text_surface = test_font.render("Runner PyGame", False, 'Black')
+
+# Score Text inside Rectangle
+score_surface = test_font.render("Runner PyGame", False, 'Black')
+score_rect = score_surface.get_rect(center=(400, 30))
 
 # Convert Snail Surface to Rectangle
 snail_surface = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
@@ -31,18 +34,18 @@ while True:
             # pygame.error: video system not initialized
             sys.exit()
         # Mouse event using event loop
-        if event.type == pygame.MOUSEMOTION:
-            if player_rect.collidepoint(event.pos):
-                print("MOUSEOVER - EVENT")
-        if event.type == pygame.MOUSEBUTTONUP:
-            print("Mouse-UP")
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            print("Mouse-DOWN")
+        # if event.type == pygame.MOUSEMOTION:
+        #     if player_rect.collidepoint(event.pos):
+        #         print("MOUSEOVER - EVENT")
+        # if event.type == pygame.MOUSEBUTTONUP:
+        #     print("Mouse-UP")
+        # if event.type == pygame.MOUSEBUTTONDOWN:
+        #     print("Mouse-DOWN")
 
     # screen.blit(test_surface, (200, 100))
     screen.blit(sky_surface, (0, 0))
     screen.blit(ground_surface, (0, 300))
-    screen.blit(text_surface, (300, 30))
+    screen.blit(score_surface, score_rect)
 
     # Snail movement
     # Important to draw the background first before drawing other objects
