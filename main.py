@@ -30,6 +30,14 @@ while True:
             # To prevent the error
             # pygame.error: video system not initialized
             sys.exit()
+        # Mouse event using event loop
+        if event.type == pygame.MOUSEMOTION:
+            if player_rect.collidepoint(event.pos):
+                print("MOUSEOVER - EVENT")
+        if event.type == pygame.MOUSEBUTTONUP:
+            print("Mouse-UP")
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            print("Mouse-DOWN")
 
     # screen.blit(test_surface, (200, 100))
     screen.blit(sky_surface, (0, 0))
@@ -54,10 +62,10 @@ while True:
 
     # Collision Detection with Mouse
     # r1.collidepoint((x,y))
-    mouse_pos = pygame.mouse.get_pos()
-    if player_rect.collidepoint(mouse_pos):
-        print("MOUSEOVER!")
-        print(pygame.mouse.get_pressed())
+    # mouse_pos = pygame.mouse.get_pos()
+    # if player_rect.collidepoint(mouse_pos):
+    #     print("MOUSEOVER!")
+    #     print(pygame.mouse.get_pressed())
 
     # Draw all our elements
     # Update everything
