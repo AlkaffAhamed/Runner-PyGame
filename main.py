@@ -16,8 +16,9 @@ text_surface = test_font.render("Runner PyGame", False, 'Black')
 snail_surface = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
 snail_x_pos = 600
 
+# Player Surface inside the rectangle
 player_surface = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
-player_rect = player_surface.get_rect(midbottom=(80,300))
+player_rect = player_surface.get_rect(midbottom=(80, 300))
 
 # Game loop
 while True:
@@ -41,6 +42,8 @@ while True:
         snail_x_pos = 800
     screen.blit(snail_surface, (snail_x_pos, 250))
 
+    # Move the Player by moving the rectangle that contains the player
+    player_rect.left += 2
     screen.blit(player_surface, player_rect)
 
     # Draw all our elements
