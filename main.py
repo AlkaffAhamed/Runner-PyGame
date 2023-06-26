@@ -6,6 +6,9 @@ screen = pygame.display.set_mode((800, 400))
 pygame.display.set_caption("Runner PyGame")
 clock = pygame.time.Clock()
 
+test_surface = pygame.Surface((100, 200))
+test_surface.fill((255, 0, 0)) # or test_surface.fill("Red")
+
 # Game loop
 while True:
     # Event loop
@@ -16,6 +19,7 @@ while True:
             # pygame.error: video system not initialized
             sys.exit()
 
+    screen.blit(test_surface, (200, 100))
     # Draw all our elements
     # Update everything
     pygame.display.update()
