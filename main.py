@@ -9,6 +9,7 @@ clock = pygame.time.Clock()
 # test_surface = pygame.Surface((100, 200))
 # test_surface.fill((255, 0, 0)) # or test_surface.fill("Red")
 sky_surface = pygame.image.load("graphics/Sky.png")
+ground_surface = pygame.image.load("graphics/ground.png")
 
 # Game loop
 while True:
@@ -22,6 +23,7 @@ while True:
 
     # screen.blit(test_surface, (200, 100))
     screen.blit(sky_surface, (0, 0))
+    screen.blit(ground_surface, (0, 300))
 
     # Draw all our elements
     # Update everything
