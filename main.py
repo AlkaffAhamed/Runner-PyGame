@@ -47,6 +47,10 @@ while True:
     player_rect.left += 2
     screen.blit(player_surface, player_rect)
 
+    # Collision Detection
+    if player_rect.colliderect(snail_rect):
+        print("COLLISION!")
+
     # Draw all our elements
     # Update everything
     pygame.display.update()
