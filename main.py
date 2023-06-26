@@ -13,7 +13,7 @@ sky_surface = pygame.image.load("graphics/Sky.png").convert()
 ground_surface = pygame.image.load("graphics/ground.png").convert()
 
 # Score Text inside Rectangle
-score_surface = test_font.render("Runner PyGame", False, 'Black')
+score_surface = test_font.render("Runner PyGame", False, (64,64,64))
 score_rect = score_surface.get_rect(center=(400, 30))
 
 # Convert Snail Surface to Rectangle
@@ -45,6 +45,10 @@ while True:
     # screen.blit(test_surface, (200, 100))
     screen.blit(sky_surface, (0, 0))
     screen.blit(ground_surface, (0, 300))
+
+    # Score Text
+    pygame.draw.rect(screen, "#C0E8EC", score_rect)  # Fill
+    # pygame.draw.rect(screen, "#C0E8EC", score_rect, 10,6)  # Border/Margins
     screen.blit(score_surface, score_rect)
 
     # Snail movement
