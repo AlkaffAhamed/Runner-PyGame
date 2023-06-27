@@ -3,8 +3,8 @@ import sys
 
 
 def display_score():
-    current_time = pygame.time.get_ticks() - start_time
-    score_surface = test_font.render(f"{current_time}", False, (64, 64, 64))
+    current_time = int(pygame.time.get_ticks() / 1000) - start_time
+    score_surface = test_font.render(f"Score: {current_time}", False, (64, 64, 64))
     score_rect = score_surface.get_rect(center=(400, 30))
     pygame.draw.rect(screen, "#C0E8EC", score_rect)  # Fill
     screen.blit(score_surface, score_rect)
@@ -78,7 +78,7 @@ while True:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
                 snail_rect.left = 800
-                start_time = pygame.time.get_ticks()
+                start_time = int(pygame.time.get_ticks() / 1000)
 
     # Not Game Over State
     if game_active:
