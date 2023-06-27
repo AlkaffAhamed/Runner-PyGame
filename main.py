@@ -13,7 +13,7 @@ sky_surface = pygame.image.load("graphics/Sky.png").convert()
 ground_surface = pygame.image.load("graphics/ground.png").convert()
 
 # Score Text inside Rectangle
-score_surface = test_font.render("Runner PyGame", False, (64,64,64))
+score_surface = test_font.render("Runner PyGame", False, (64, 64, 64))
 score_rect = score_surface.get_rect(center=(400, 30))
 
 # Convert Snail Surface to Rectangle
@@ -58,8 +58,13 @@ while True:
         snail_rect.right = 800
     screen.blit(snail_surface, snail_rect)
 
+    # Keys using the key module
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_SPACE]:
+        print("JUMP!")
+
     # Move the Player by moving the rectangle that contains the player
-    player_rect.left += 2
+    # player_rect.left += 2
     screen.blit(player_surface, player_rect)
 
     # Collision Detection with Snail
