@@ -23,6 +23,7 @@ snail_rect = snail_surface.get_rect(bottomright=(600, 300))
 # Player Surface inside the rectangle
 player_surface = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
 player_rect = player_surface.get_rect(midbottom=(80, 300))
+player_gravity = -20
 
 # Game loop
 while True:
@@ -72,6 +73,10 @@ while True:
 
     # Move the Player by moving the rectangle that contains the player
     # player_rect.left += 2
+
+    # Player Gravity
+    player_gravity += 1
+    player_rect.y += player_gravity
     screen.blit(player_surface, player_rect)
 
     # Collision Detection with Snail
