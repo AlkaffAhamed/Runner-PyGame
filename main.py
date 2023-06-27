@@ -15,7 +15,7 @@ screen = pygame.display.set_mode((800, 400))
 pygame.display.set_caption("Runner PyGame")
 clock = pygame.time.Clock()
 test_font = pygame.font.Font("font/Pixeltype.ttf", 50)
-game_active = True
+game_active = False
 start_time = 0
 
 # test_surface = pygame.Surface((100, 200))
@@ -35,6 +35,19 @@ snail_rect = snail_surface.get_rect(bottomright=(600, 300))
 player_surface = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
 player_rect = player_surface.get_rect(midbottom=(80, 300))
 player_gravity = 0
+
+# Intro Screen
+player_stand = pygame.image.load("graphics/Player/player_stand.png").convert_alpha()
+# player_stand = pygame.transform.scale(player_stand, (200, 400))
+# player_stand = pygame.transform.scale2x(player_stand)
+player_stand = pygame.transform.rotozoom(player_stand, 0, 2)
+player_stand_rect = player_stand.get_rect(center=(400, 200))
+
+game_name = test_font.render("Runner PyGame", False, (111, 196, 169))
+game_name_rect = game_name.get_rect(center=(400, 80))
+
+game_message = test_font.render("Press SPACE to run!", False, (111, 196, 169))
+game_message_rect = game_message.get_rect(center=(400, 330))
 
 # Game loop
 while True:
@@ -136,7 +149,10 @@ while True:
     # Game Over State
     else:
         # Game Over Logic
-        screen.fill("Yellow")
+        screen.fill((94, 129, 162))
+        screen.blit(player_stand, player_stand_rect)
+        screen.blit(game_name, game_name_rect)
+        screen.blit(game_message, game_message_rect)
 
     # Draw all our elements
     # Update everything
