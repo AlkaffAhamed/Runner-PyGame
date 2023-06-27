@@ -42,6 +42,13 @@ while True:
         # if event.type == pygame.MOUSEBUTTONDOWN:
         #     print("Mouse-DOWN")
 
+        # Keyboard event using event loop
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                print("JUMP! - EVENT")
+        if event.type == pygame.KEYUP:
+            print("Key-UP")
+
     # screen.blit(test_surface, (200, 100))
     screen.blit(sky_surface, (0, 0))
     screen.blit(ground_surface, (0, 300))
@@ -59,9 +66,9 @@ while True:
     screen.blit(snail_surface, snail_rect)
 
     # Keys using the key module
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_SPACE]:
-        print("JUMP!")
+    # keys = pygame.key.get_pressed()
+    # if keys[pygame.K_SPACE]:
+    #     print("JUMP!")
 
     # Move the Player by moving the rectangle that contains the player
     # player_rect.left += 2
