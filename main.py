@@ -8,6 +8,7 @@ def display_score():
     score_rect = score_surface.get_rect(center=(400, 30))
     pygame.draw.rect(screen, "#C0E8EC", score_rect)  # Fill
     screen.blit(score_surface, score_rect)
+    return current_time
 
 
 pygame.init()
@@ -17,6 +18,7 @@ clock = pygame.time.Clock()
 test_font = pygame.font.Font("font/Pixeltype.ttf", 50)
 game_active = False
 start_time = 0
+score = 0
 
 # test_surface = pygame.Surface((100, 200))
 # test_surface.fill((255, 0, 0)) # or test_surface.fill("Red")
@@ -103,7 +105,7 @@ while True:
         # pygame.draw.rect(screen, "#C0E8EC", score_rect)  # Fill
         # # pygame.draw.rect(screen, "#C0E8EC", score_rect, 10,6)  # Border/Margins
         # screen.blit(score_surface, score_rect)
-        display_score()
+        score = display_score()
 
         # Snail movement
         # Important to draw the background first before drawing other objects
@@ -152,7 +154,14 @@ while True:
         screen.fill((94, 129, 162))
         screen.blit(player_stand, player_stand_rect)
         screen.blit(game_name, game_name_rect)
-        screen.blit(game_message, game_message_rect)
+
+        score_message = test_font.render(f"Your score: {score}", False, (111, 196, 169))
+        score_message_rect = score_message.get_rect(center=(400, 330))
+
+        if score == 0:
+            screen.blit(game_message, game_message_rect)
+        else:
+            screen.blit(score_message, score_message_rect)
 
     # Draw all our elements
     # Update everything
