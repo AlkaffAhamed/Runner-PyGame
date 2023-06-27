@@ -23,7 +23,7 @@ snail_rect = snail_surface.get_rect(bottomright=(600, 300))
 # Player Surface inside the rectangle
 player_surface = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
 player_rect = player_surface.get_rect(midbottom=(80, 300))
-player_gravity = -20
+player_gravity = 0
 
 # Game loop
 while True:
@@ -44,11 +44,21 @@ while True:
         #     print("Mouse-DOWN")
 
         # Keyboard event using event loop
+        # if event.type == pygame.KEYDOWN:
+        #     if event.key == pygame.K_SPACE:
+        #         print("JUMP! - EVENT")
+        # if event.type == pygame.KEYUP:
+        #     print("Key-UP")
+
+        # Jump when Space is pressed
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                print("JUMP! - EVENT")
-        if event.type == pygame.KEYUP:
-            print("Key-UP")
+                player_gravity = -20
+
+        # Jump when player is clicked
+        if event.type == pygame.MOUSEBUTTONUP:
+            if player_rect.collidepoint(event.pos):
+                player_gravity = -20
 
     # screen.blit(test_surface, (200, 100))
     screen.blit(sky_surface, (0, 0))
