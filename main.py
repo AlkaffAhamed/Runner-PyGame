@@ -87,6 +87,11 @@ while True:
     # Player Gravity
     player_gravity += 1
     player_rect.y += player_gravity
+
+    # To prevent the player from falling below ground
+    if player_rect.bottom >= 300:
+        player_rect.bottom = 300
+
     screen.blit(player_surface, player_rect)
 
     # Collision Detection with Snail
