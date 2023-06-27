@@ -1,6 +1,15 @@
 import pygame
 import sys
 
+
+def display_score():
+    current_time = pygame.time.get_ticks()
+    score_surface = test_font.render(f"{current_time}", False, (64, 64, 64))
+    score_rect = score_surface.get_rect(center=(400, 30))
+    pygame.draw.rect(screen, "#C0E8EC", score_rect)  # Fill
+    screen.blit(score_surface, score_rect)
+
+
 pygame.init()
 screen = pygame.display.set_mode((800, 400))
 pygame.display.set_caption("Runner PyGame")
@@ -14,8 +23,8 @@ sky_surface = pygame.image.load("graphics/Sky.png").convert()
 ground_surface = pygame.image.load("graphics/ground.png").convert()
 
 # Score Text inside Rectangle
-score_surface = test_font.render("Runner PyGame", False, (64, 64, 64))
-score_rect = score_surface.get_rect(center=(400, 30))
+# score_surface = test_font.render("Runner PyGame", False, (64, 64, 64))
+# score_rect = score_surface.get_rect(center=(400, 30))
 
 # Convert Snail Surface to Rectangle
 snail_surface = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
@@ -76,9 +85,10 @@ while True:
         screen.blit(ground_surface, (0, 300))
 
         # Score Text
-        pygame.draw.rect(screen, "#C0E8EC", score_rect)  # Fill
-        # pygame.draw.rect(screen, "#C0E8EC", score_rect, 10,6)  # Border/Margins
-        screen.blit(score_surface, score_rect)
+        # pygame.draw.rect(screen, "#C0E8EC", score_rect)  # Fill
+        # # pygame.draw.rect(screen, "#C0E8EC", score_rect, 10,6)  # Border/Margins
+        # screen.blit(score_surface, score_rect)
+        display_score()
 
         # Snail movement
         # Important to draw the background first before drawing other objects
