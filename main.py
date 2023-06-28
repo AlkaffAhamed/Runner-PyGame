@@ -199,6 +199,8 @@ while True:
         screen.blit(player_stand, player_stand_rect)
         screen.blit(game_name, game_name_rect)
         obstacle_rect_list = []
+        player_rect.midbottom = (80, 300)
+        player_gravity = 0
 
         score_message = test_font.render(f"Your score: {score}", False, (111, 196, 169))
         score_message_rect = score_message.get_rect(center=(400, 330))
