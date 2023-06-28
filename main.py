@@ -27,6 +27,14 @@ def obstacle_movement(obstacle_list):
         return []
 
 
+def collisions(player, obstacle_list):
+    if obstacle_list:
+        for obstacle_rect in obstacle_list:
+            if obstacle_rect.colliderect(player):
+                return False
+    return True
+
+
 pygame.init()
 screen = pygame.display.set_mode((800, 400))
 pygame.display.set_caption("Runner PyGame")
@@ -176,6 +184,9 @@ while True:
 
         # Obstacle Movement
         obstacle_rect_list = obstacle_movement(obstacle_rect_list)
+
+        # Collisions
+        game_active = collisions(player_rect, obstacle_rect_list)
 
         # Check for Game Over State
         # if snail_rect.colliderect(player_rect):
