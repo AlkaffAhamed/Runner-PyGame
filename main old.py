@@ -1,3 +1,4 @@
+# Code before converting to OOP
 import pygame
 import sys
 from random import randint
@@ -60,10 +61,21 @@ game_active = False
 start_time = 0
 score = 0
 
+# test_surface = pygame.Surface((100, 200))
+# test_surface.fill((255, 0, 0)) # or test_surface.fill("Red")
 sky_surface = pygame.image.load("graphics/Sky.png").convert()
 ground_surface = pygame.image.load("graphics/ground.png").convert()
 
+# Score Text inside Rectangle
+# score_surface = test_font.render("Runner PyGame", False, (64, 64, 64))
+# score_rect = score_surface.get_rect(center=(400, 30))
+
 # Obstacles
+# # Convert Snail Surface to Rectangle
+# snail_surface = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
+# # snail_rect = snail_surface.get_rect(bottomright=(600, 300))
+# fly_surface = pygame.image.load("graphics/Fly/Fly1.png").convert_alpha()
+
 # Snail
 snail_frame_1 = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
 snail_frame_2 = pygame.image.load("graphics/snail/snail2.png").convert_alpha()
@@ -89,12 +101,16 @@ player_jump = pygame.image.load("graphics/Player/jump.png").convert_alpha()
 player_index = 0
 player_walk = [player_walk_1, player_walk_2]
 
+# Player Surface inside the rectangle
+# player_surface = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
 player_surface = player_walk[player_index]
 player_rect = player_surface.get_rect(midbottom=(80, 300))
 player_gravity = 0
 
 # Intro Screen
 player_stand = pygame.image.load("graphics/Player/player_stand.png").convert_alpha()
+# player_stand = pygame.transform.scale(player_stand, (200, 400))
+# player_stand = pygame.transform.scale2x(player_stand)
 player_stand = pygame.transform.rotozoom(player_stand, 0, 2)
 player_stand_rect = player_stand.get_rect(center=(400, 200))
 
@@ -104,7 +120,7 @@ game_name_rect = game_name.get_rect(center=(400, 80))
 game_message = test_font.render("Press SPACE to run!", False, (111, 196, 169))
 game_message_rect = game_message.get_rect(center=(400, 330))
 
-# Timers
+# Timer
 obstacle_timer = pygame.USEREVENT + 1
 pygame.time.set_timer(obstacle_timer, 1500)
 
@@ -126,12 +142,31 @@ while True:
 
         # Not Game Over State
         if game_active:
+            # Mouse event using event loop
+            # if event.type == pygame.MOUSEMOTION:
+            #     if player_rect.collidepoint(event.pos):
+            #         print("MOUSEOVER - EVENT")
+            # if event.type == pygame.MOUSEBUTTONUP:
+            #     print("Mouse-UP")
+            # if event.type == pygame.MOUSEBUTTONDOWN:
+            #     print("Mouse-DOWN")
+
+            # Keyboard event using event loop
+            # if event.type == pygame.KEYDOWN:
+            #     if event.key == pygame.K_SPACE:
+            #         print("JUMP! - EVENT")
+            # if event.type == pygame.KEYUP:
+            #     print("Key-UP")
 
             # Jump when Space is pressed
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and player_rect.bottom >= 300:
                     player_gravity = -20
 
+            # Jump when player is clicked
+            if event.type == pygame.MOUSEBUTTONUP:
+                if player_rect.collidepoint(event.pos) and player_rect.bottom >= 300:
+                    player_gravity = -20
         # Game Over State
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
@@ -141,19 +176,16 @@ while True:
 
         # Obstacle spawning
         if game_active:
-
             # Spawning Snail or Fly
             if event.type == obstacle_timer:
                 if randint(0, 2):
                     obstacle_rect_list.append(snail_surface.get_rect(bottomright=(randint(900, 1100), 300)))
                 else:
                     obstacle_rect_list.append(fly_surface.get_rect(bottomright=(randint(900, 1100), 200)))
-
             # Snail Animation
             if event.type == snail_animation_timer:
                 snail_frame_index = 1 if snail_frame_index == 0 else 0
                 snail_surface = snail_frames[snail_frame_index]
-
             # Fly Animation
             if event.type == fly_animation_timer:
                 fly_frame_index = 1 if fly_frame_index == 0 else 0
@@ -161,12 +193,30 @@ while True:
 
     # Not Game Over State
     if game_active:
-
+        # screen.blit(test_surface, (200, 100))
         screen.blit(sky_surface, (0, 0))
         screen.blit(ground_surface, (0, 300))
 
         # Score Text
+        # pygame.draw.rect(screen, "#C0E8EC", score_rect)  # Fill
+        # # pygame.draw.rect(screen, "#C0E8EC", score_rect, 10,6)  # Border/Margins
+        # screen.blit(score_surface, score_rect)
         score = display_score()
+
+        # Snail movement
+        # Important to draw the background first before drawing other objects
+        # snail_rect.x -= 4
+        # if snail_rect.left < 0:
+        #     snail_rect.right = 800
+        # screen.blit(snail_surface, snail_rect)
+
+        # Keys using the key module
+        # keys = pygame.key.get_pressed()
+        # if keys[pygame.K_SPACE]:
+        #     print("JUMP!")
+
+        # Move the Player by moving the rectangle that contains the player
+        # player_rect.left += 2
 
         # Player Gravity
         player_gravity += 1
@@ -179,11 +229,27 @@ while True:
         player_animation()
         screen.blit(player_surface, player_rect)
 
+        # Collision Detection with Snail
+        # r1.colliderect(r2)
+        # if player_rect.colliderect(snail_rect):
+        #     print("COLLISION!")
+
+        # Collision Detection with Mouse
+        # r1.collidepoint((x,y))
+        # mouse_pos = pygame.mouse.get_pos()
+        # if player_rect.collidepoint(mouse_pos):
+        #     print("MOUSEOVER!")
+        #     print(pygame.mouse.get_pressed())
+
         # Obstacle Movement
         obstacle_rect_list = obstacle_movement(obstacle_rect_list)
 
         # Collisions
         game_active = collisions(player_rect, obstacle_rect_list)
+
+        # Check for Game Over State
+        # if snail_rect.colliderect(player_rect):
+        #     game_active = False
 
     # Game Over State
     else:
