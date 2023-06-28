@@ -35,6 +35,22 @@ def collisions(player, obstacle_list):
     return True
 
 
+def player_animation():
+    # Walk Animation if player on the ground
+    # Jump Animation if player is not on the ground
+    global player_surface, player_index
+
+    # Jump
+    if player_rect.bottom < 300:
+        player_surface = player_jump
+    # Walk
+    else:
+        player_index += 0.1
+        if player_index >= len(player_walk):
+            player_index = 0
+        player_surface = player_walk[int(player_index)]
+
+
 pygame.init()
 screen = pygame.display.set_mode((800, 400))
 pygame.display.set_caption("Runner PyGame")
@@ -60,8 +76,18 @@ snail_surface = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
 fly_surface = pygame.image.load("graphics/Fly/Fly1.png").convert_alpha()
 obstacle_rect_list = []
 
+# Player
+# Animation Surfaces
+player_walk_1 = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
+player_walk_2 = pygame.image.load("graphics/Player/player_walk_2.png").convert_alpha()
+player_jump = pygame.image.load("graphics/Player/jump.png").convert_alpha()
+
+player_index = 0
+player_walk = [player_walk_1, player_walk_2]
+
 # Player Surface inside the rectangle
-player_surface = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
+# player_surface = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
+player_surface = player_walk[player_index]
 player_rect = player_surface.get_rect(midbottom=(80, 300))
 player_gravity = 0
 
@@ -168,6 +194,7 @@ while True:
         if player_rect.bottom >= 300:
             player_rect.bottom = 300
 
+        player_animation()
         screen.blit(player_surface, player_rect)
 
         # Collision Detection with Snail
