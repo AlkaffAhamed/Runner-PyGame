@@ -1,5 +1,6 @@
 import pygame
 import sys
+from random import randint
 
 
 def display_score():
@@ -9,6 +10,16 @@ def display_score():
     pygame.draw.rect(screen, "#C0E8EC", score_rect)  # Fill
     screen.blit(score_surface, score_rect)
     return current_time
+
+
+def obstacle_movement(obstacle_list):
+    if obstacle_list:
+        for obstacle_rect in obstacle_list:
+            obstacle_rect.x -= 4
+            screen.blit(snail_surface, obstacle_rect)
+        return obstacle_list
+    else:
+        return []
 
 
 pygame.init()
@@ -29,9 +40,12 @@ ground_surface = pygame.image.load("graphics/ground.png").convert()
 # score_surface = test_font.render("Runner PyGame", False, (64, 64, 64))
 # score_rect = score_surface.get_rect(center=(400, 30))
 
+# Obstacles
 # Convert Snail Surface to Rectangle
 snail_surface = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
 snail_rect = snail_surface.get_rect(bottomright=(600, 300))
+
+obstacle_rect_list = []
 
 # Player Surface inside the rectangle
 player_surface = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
@@ -50,6 +64,10 @@ game_name_rect = game_name.get_rect(center=(400, 80))
 
 game_message = test_font.render("Press SPACE to run!", False, (111, 196, 169))
 game_message_rect = game_message.get_rect(center=(400, 330))
+
+# Timer
+obstacle_timer = pygame.USEREVENT + 1
+pygame.time.set_timer(obstacle_timer, 1500)
 
 # Game loop
 while True:
@@ -95,6 +113,10 @@ while True:
                 snail_rect.left = 800
                 start_time = int(pygame.time.get_ticks() / 1000)
 
+        # Obstacle spawning
+        if event.type == obstacle_timer and game_active:
+            obstacle_rect_list.append(snail_surface.get_rect(bottomright=(randint(900, 1100), 300)))
+
     # Not Game Over State
     if game_active:
         # screen.blit(test_surface, (200, 100))
@@ -109,10 +131,10 @@ while True:
 
         # Snail movement
         # Important to draw the background first before drawing other objects
-        snail_rect.x -= 4
-        if snail_rect.left < 0:
-            snail_rect.right = 800
-        screen.blit(snail_surface, snail_rect)
+        # snail_rect.x -= 4
+        # if snail_rect.left < 0:
+        #     snail_rect.right = 800
+        # screen.blit(snail_surface, snail_rect)
 
         # Keys using the key module
         # keys = pygame.key.get_pressed()
@@ -143,6 +165,9 @@ while True:
         # if player_rect.collidepoint(mouse_pos):
         #     print("MOUSEOVER!")
         #     print(pygame.mouse.get_pressed())
+
+        # Obstacle Movement
+        obstacle_rect_list = obstacle_movement(obstacle_rect_list)
 
         # Check for Game Over State
         if snail_rect.colliderect(player_rect):
