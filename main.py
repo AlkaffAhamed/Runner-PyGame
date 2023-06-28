@@ -17,6 +17,7 @@ def obstacle_movement(obstacle_list):
         for obstacle_rect in obstacle_list:
             obstacle_rect.x -= 4
             screen.blit(snail_surface, obstacle_rect)
+        obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -100]
         return obstacle_list
     else:
         return []
@@ -43,8 +44,7 @@ ground_surface = pygame.image.load("graphics/ground.png").convert()
 # Obstacles
 # Convert Snail Surface to Rectangle
 snail_surface = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
-snail_rect = snail_surface.get_rect(bottomright=(600, 300))
-
+# snail_rect = snail_surface.get_rect(bottomright=(600, 300))
 obstacle_rect_list = []
 
 # Player Surface inside the rectangle
