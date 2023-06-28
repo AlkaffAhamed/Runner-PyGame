@@ -16,7 +16,11 @@ def obstacle_movement(obstacle_list):
     if obstacle_list:
         for obstacle_rect in obstacle_list:
             obstacle_rect.x -= 4
-            screen.blit(snail_surface, obstacle_rect)
+            if obstacle_rect.bottom == 300:
+                screen.blit(snail_surface, obstacle_rect)
+            else:
+                screen.blit(fly_surface, obstacle_rect)
+
         obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -100]
         return obstacle_list
     else:
@@ -45,6 +49,7 @@ ground_surface = pygame.image.load("graphics/ground.png").convert()
 # Convert Snail Surface to Rectangle
 snail_surface = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
 # snail_rect = snail_surface.get_rect(bottomright=(600, 300))
+fly_surface = pygame.image.load("graphics/Fly/Fly1.png").convert_alpha()
 obstacle_rect_list = []
 
 # Player Surface inside the rectangle
@@ -110,12 +115,15 @@ while True:
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
-                snail_rect.left = 800
+                # snail_rect.left = 800
                 start_time = int(pygame.time.get_ticks() / 1000)
 
         # Obstacle spawning
         if event.type == obstacle_timer and game_active:
-            obstacle_rect_list.append(snail_surface.get_rect(bottomright=(randint(900, 1100), 300)))
+            if randint(0, 2):
+                obstacle_rect_list.append(snail_surface.get_rect(bottomright=(randint(900, 1100), 300)))
+            else:
+                obstacle_rect_list.append(fly_surface.get_rect(bottomright=(randint(900, 1100), 200)))
 
     # Not Game Over State
     if game_active:
@@ -170,8 +178,8 @@ while True:
         obstacle_rect_list = obstacle_movement(obstacle_rect_list)
 
         # Check for Game Over State
-        if snail_rect.colliderect(player_rect):
-            game_active = False
+        # if snail_rect.colliderect(player_rect):
+        #     game_active = False
 
     # Game Over State
     else:
