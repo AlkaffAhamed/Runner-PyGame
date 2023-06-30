@@ -102,12 +102,20 @@ def display_score():
 #         return []
 
 
-def collisions(player, obstacle_list):
-    if obstacle_list:
-        for obstacle_rect in obstacle_list:
-            if obstacle_rect.colliderect(player):
-                return False
-    return True
+def collision_sprite():
+    if pygame.sprite.spritecollide(player.sprite, obstacle_group, False):
+        obstacle_group.empty()
+        return False
+    else:
+        return True
+
+
+# def collisions(player, obstacle_list):
+#     if obstacle_list:
+#         for obstacle_rect in obstacle_list:
+#             if obstacle_rect.colliderect(player):
+#                 return False
+#     return True
 
 
 # def player_animation():
@@ -274,6 +282,7 @@ while True:
         #
         # # Collisions
         # game_active = collisions(player_rect, obstacle_rect_list)
+        game_active = collision_sprite()
 
     # Game Over State
     else:
