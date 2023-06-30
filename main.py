@@ -91,51 +91,12 @@ def display_score():
     return current_time
 
 
-# def obstacle_movement(obstacle_list):
-#     if obstacle_list:
-#         for obstacle_rect in obstacle_list:
-#             obstacle_rect.x -= 4
-#             if obstacle_rect.bottom == 300:
-#                 screen.blit(snail_surface, obstacle_rect)
-#             else:
-#                 screen.blit(fly_surface, obstacle_rect)
-#
-#         obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -100]
-#         return obstacle_list
-#     else:
-#         return []
-
-
 def collision_sprite():
     if pygame.sprite.spritecollide(player.sprite, obstacle_group, False):
         obstacle_group.empty()
         return False
     else:
         return True
-
-
-# def collisions(player, obstacle_list):
-#     if obstacle_list:
-#         for obstacle_rect in obstacle_list:
-#             if obstacle_rect.colliderect(player):
-#                 return False
-#     return True
-
-
-# def player_animation():
-#     # Walk Animation if player on the ground
-#     # Jump Animation if player is not on the ground
-#     global player_surface, player_index
-#
-#     # Jump
-#     if player_rect.bottom < 300:
-#         player_surface = player_jump
-#     # Walk
-#     else:
-#         player_index += 0.1
-#         if player_index >= len(player_walk):
-#             player_index = 0
-#         player_surface = player_walk[int(player_index)]
 
 
 pygame.init()
@@ -159,36 +120,6 @@ obstacle_group = pygame.sprite.Group()
 sky_surface = pygame.image.load("graphics/Sky.png").convert()
 ground_surface = pygame.image.load("graphics/ground.png").convert()
 
-# # Obstacles
-# # Snail
-# snail_frame_1 = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
-# snail_frame_2 = pygame.image.load("graphics/snail/snail2.png").convert_alpha()
-# snail_frames = [snail_frame_1, snail_frame_2]
-# snail_frame_index = 0
-# snail_surface = snail_frames[snail_frame_index]
-#
-# # Fly
-# fly_frame_1 = pygame.image.load("graphics/Fly/Fly1.png").convert_alpha()
-# fly_frame_2 = pygame.image.load("graphics/Fly/Fly2.png").convert_alpha()
-# fly_frames = [fly_frame_1, fly_frame_2]
-# fly_frame_index = 0
-# fly_surface = fly_frames[fly_frame_index]
-#
-# obstacle_rect_list = []
-#
-# # Player
-# # Animation Surfaces
-# player_walk_1 = pygame.image.load("graphics/Player/player_walk_1.png").convert_alpha()
-# player_walk_2 = pygame.image.load("graphics/Player/player_walk_2.png").convert_alpha()
-# player_jump = pygame.image.load("graphics/Player/jump.png").convert_alpha()
-#
-# player_index = 0
-# player_walk = [player_walk_1, player_walk_2]
-#
-# player_surface = player_walk[player_index]
-# player_rect = player_surface.get_rect(midbottom=(80, 300))
-# player_gravity = 0
-
 # Intro Screen
 player_stand = pygame.image.load("graphics/Player/player_stand.png").convert_alpha()
 player_stand = pygame.transform.rotozoom(player_stand, 0, 2)
@@ -200,15 +131,9 @@ game_name_rect = game_name.get_rect(center=(400, 80))
 game_message = test_font.render("Press SPACE to run!", False, (111, 196, 169))
 game_message_rect = game_message.get_rect(center=(400, 330))
 
-# Timers
+# Timer
 obstacle_timer = pygame.USEREVENT + 1
 pygame.time.set_timer(obstacle_timer, 1500)
-
-# snail_animation_timer = pygame.USEREVENT + 2
-# pygame.time.set_timer(snail_animation_timer, 500)
-#
-# fly_animation_timer = pygame.USEREVENT + 3
-# pygame.time.set_timer(fly_animation_timer, 200)
 
 # Game loop
 while True:
@@ -222,13 +147,7 @@ while True:
 
         # Not Game Over State
         if game_active:
-
             pass
-            # # Jump when Space is pressed
-            # if event.type == pygame.KEYDOWN:
-            #     if event.key == pygame.K_SPACE and player_rect.bottom >= 300:
-            #         player_gravity = -20
-
         # Game Over State
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
@@ -243,21 +162,6 @@ while True:
                 obtype = choice(["fly", "snail", "snail", "snail"])
                 obstacle_group.add(Obstacle(obtype))
 
-                # if randint(0, 2):
-                #     obstacle_rect_list.append(snail_surface.get_rect(bottomright=(randint(900, 1100), 300)))
-                # else:
-                #     obstacle_rect_list.append(fly_surface.get_rect(bottomright=(randint(900, 1100), 200)))
-
-            # # Snail Animation
-            # if event.type == snail_animation_timer:
-            #     snail_frame_index = 1 if snail_frame_index == 0 else 0
-            #     snail_surface = snail_frames[snail_frame_index]
-            #
-            # # Fly Animation
-            # if event.type == fly_animation_timer:
-            #     fly_frame_index = 1 if fly_frame_index == 0 else 0
-            #     fly_surface = fly_frames[fly_frame_index]
-
     # Not Game Over State
     if game_active:
 
@@ -267,27 +171,11 @@ while True:
         # Score Text
         score = display_score()
 
-        # # Player Gravity
-        # player_gravity += 1
-        # player_rect.y += player_gravity
-        #
-        # # To prevent the player from falling below ground
-        # if player_rect.bottom >= 300:
-        #     player_rect.bottom = 300
-        #
-        # player_animation()
-        # screen.blit(player_surface, player_rect)
-
         player.draw(screen)
         player.update()
         obstacle_group.draw(screen)
         obstacle_group.update()
 
-        # # Obstacle Movement
-        # obstacle_rect_list = obstacle_movement(obstacle_rect_list)
-        #
-        # # Collisions
-        # game_active = collisions(player_rect, obstacle_rect_list)
         game_active = collision_sprite()
 
     # Game Over State
@@ -297,8 +185,6 @@ while True:
         screen.blit(player_stand, player_stand_rect)
         screen.blit(game_name, game_name_rect)
         obstacle_rect_list = []
-        # player_rect.midbottom = (80, 300)
-        # player_gravity = 0
 
         score_message = test_font.render(f"Your score: {score}", False, (111, 196, 169))
         score_message_rect = score_message.get_rect(center=(400, 330))
