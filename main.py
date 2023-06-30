@@ -1,7 +1,7 @@
 # OOP version converted
 import pygame
 import sys
-from random import randint
+from random import randint, choice
 
 
 class Player(pygame.sprite.Sprite):
@@ -42,6 +42,40 @@ class Player(pygame.sprite.Sprite):
         self.player_input()
         self.apply_gravity()
         self.animation_state()
+
+
+class Obstacle(pygame.sprite.Sprite):
+    def __init__(self, type):
+        super().__init__()
+        if type == "fly":
+            fly_frame_1 = pygame.image.load("graphics/Fly/Fly1.png").convert_alpha()
+            fly_frame_2 = pygame.image.load("graphics/Fly/Fly2.png").convert_alpha()
+            self.frames = [fly_frame_1, fly_frame_2]
+            y_pos = 210
+        else:
+            snail_frame_1 = pygame.image.load("graphics/snail/snail1.png").convert_alpha()
+            snail_frame_2 = pygame.image.load("graphics/snail/snail2.png").convert_alpha()
+            self.frames = [snail_frame_1, snail_frame_2]
+            y_pos = 300
+
+        self.animation_index = 0
+        self.image = self.frames[self.animation_index]
+        self.rect = self.image.get_rect(midbottom=(randint(900, 1100), y_pos))
+
+    def animation_state(self):
+        self.animation_index += 0.1
+        if self.animation_index >= len(self.frames):
+            self.animation_index = 0
+        self.image = self.frames[int(self.animation_index)]
+
+    def update(self):
+        self.animation_state()
+        self.rect.x -= 6
+        self.destroy()
+
+    def destroy(self):
+        if self.rect.x <= -100:
+            self.kill()
 
 
 def display_score():
@@ -101,8 +135,11 @@ game_active = False
 start_time = 0
 score = 0
 
+# Sprite Groups
 player = pygame.sprite.GroupSingle()
 player.add(Player())
+
+obstacle_group = pygame.sprite.Group()
 
 sky_surface = pygame.image.load("graphics/Sky.png").convert()
 ground_surface = pygame.image.load("graphics/ground.png").convert()
@@ -185,13 +222,15 @@ while True:
 
         # Obstacle spawning
         if game_active:
-
             # Spawning Snail or Fly
             if event.type == obstacle_timer:
-                if randint(0, 2):
-                    obstacle_rect_list.append(snail_surface.get_rect(bottomright=(randint(900, 1100), 300)))
-                else:
-                    obstacle_rect_list.append(fly_surface.get_rect(bottomright=(randint(900, 1100), 200)))
+                obtype = choice(["fly", "snail", "snail", "snail"])
+                obstacle_group.add(Obstacle(obtype))
+
+                # if randint(0, 2):
+                #     obstacle_rect_list.append(snail_surface.get_rect(bottomright=(randint(900, 1100), 300)))
+                # else:
+                #     obstacle_rect_list.append(fly_surface.get_rect(bottomright=(randint(900, 1100), 200)))
 
             # Snail Animation
             if event.type == snail_animation_timer:
@@ -222,8 +261,11 @@ while True:
 
         player_animation()
         screen.blit(player_surface, player_rect)
+
         player.draw(screen)
         player.update()
+        obstacle_group.draw(screen)
+        obstacle_group.update()
 
         # Obstacle Movement
         obstacle_rect_list = obstacle_movement(obstacle_rect_list)
